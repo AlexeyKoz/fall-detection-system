@@ -27,9 +27,9 @@ This project implements the mathematical model described in:
 > IEEE Sensors Journal, vol. 24, no. 20, pp. 32981-32990.
 
 ## 👥 Contributors
-- **[Your Name]** - System Architecture & Hardware Development
+- **Alexey Kozlov** - System Architecture & Hardware Development
 - **Gavriel Shavchuk** - Algorithm Enhancement
-- **[Project Lead Name]** - Project Management
+- **Gavriel Shavchuk** - Project Management
 
 ## 📄 License
 MIT License - see [LICENSE](LICENSE) file
