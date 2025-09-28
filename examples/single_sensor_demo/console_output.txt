@@ -1,0 +1,59 @@
+# Single Sensor Demo - Fall Detection Console Output
+# Location: examples/single_sensor_demo/console_output.txt
+# This demonstrates a single sensor detecting a fall event
+
+🧠 Monitoring Redis for fall events...
+
+========== STATUS @ 2024-12-08 14:23:15 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.123 -0.045  0.089]  Accel: [ 0.982 -0.145  9.798]
+  Fall Index: 0.15  
+Sensor 2: ❌ No data
+Sensor 3: ❌ No data
+============================
+
+========== STATUS @ 2024-12-08 14:23:18 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.156 -0.078  0.234]  Accel: [ 1.023 -0.234  9.756]
+  Fall Index: 0.29  
+Sensor 2: ❌ No data
+Sensor 3: ❌ No data
+============================
+
+========== STATUS @ 2024-12-08 14:23:21 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.234 -0.156  0.345]  Accel: [ 1.234 -0.456  9.234]
+  Fall Index: 0.45  
+Sensor 2: ❌ No data
+Sensor 3: ❌ No data
+============================
+
+========== STATUS @ 2024-12-08 14:23:24 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 2.345  1.234  3.456]  Accel: [ 3.456 -2.345  8.234]
+  Fall Index: 4.32  ◉ FALL ◉
+Sensor 2: ❌ No data
+Sensor 3: ❌ No data
+============================
+
+[2024-12-08 14:23:24] ◉ FALL detected!
+    Sensor: 1 (192.168.4.10)
+    Gyro:   x=2.345, y=1.234, z=3.456
+    Accel:  x=3.456, y=-2.345, z=8.234
+    Index:  4.32
+
+========== STATUS @ 2024-12-08 14:23:27 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.456 -0.234  0.567]  Accel: [ 1.567 -0.789  9.456]
+  Fall Index: 0.78  
+Sensor 2: ❌ No data
+Sensor 3: ❌ No data
+============================
+
+========== STATUS @ 2024-12-08 14:23:30 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.123 -0.089  0.156]  Accel: [ 0.234 -0.167  9.789]
+  Fall Index: 0.22  
+Sensor 2: ❌ No data
+Sensor 3: ❌ No data
+============================

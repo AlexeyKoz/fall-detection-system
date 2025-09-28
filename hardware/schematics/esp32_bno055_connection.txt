@@ -1,0 +1,193 @@
+================================================================================
+                    ESP32-BNO055 I2C CONNECTION SCHEMATIC
+================================================================================
+Project: Fall Detection System
+Date: December 2024
+Author: Alexey Kozlov
+Institution: Ariel University
+================================================================================
+
+COMPONENT PINOUT DIAGRAMS
+================================================================================
+
+ESP32 DevKit (30-pin version)
+------------------------------
+                        ┌─────────────────┐
+                   EN ──┤1              30├── GPIO23
+                VP/36 ──┤2              29├── GPIO22 ────► SCL (to BNO055)
+                VN/39 ──┤3              28├── TX0/GPIO1
+                   34 ──┤4              27├── RX0/GPIO3
+                   35 ──┤5              26├── GPIO21 ────► SDA (to BNO055)
+                   32 ──┤6 [YELLOW LED] 25├── GND ────────► GND (to BNO055)
+                   33 ──┤7              24├── GPIO19 ────► BLUE LED
+                   25 ──┤8              23├── GPIO18
+                   26 ──┤9              22├── GPIO5 ─────► GREEN LED
+                   27 ──┤10             21├── GPIO17 ────► RED LED
+                   14 ──┤11 [PWR BTN]   20├── GPIO16
+                   12 ──┤12             19├── GPIO4 ─────► CALIB BUTTON
+                  GND ──┤13             18├── GPIO0
+                   13 ──┤14             17├── GPIO2 ─────► STATUS LED
+                  SD2 ──┤15             16├── GPIO15
+                  SD3 ──┤16             15├── SD1
+                  CMD ──┤17             14├── SD0
+                  5V ───┤18             13├── CLK
+                 3.3V ──┤19 ◄─────────► 12├── GND
+                        └─────────────────┘
+                              ESP32
+                        (Power to BNO055)
+
+BNO055 Breakout Board (Adafruit)
+---------------------------------
+        ┌──────────────────────────┐
+        │     Adafruit BNO055      │
+        │                          │
+        │  ○ VIN  ← 3.3V from ESP32│
+        │  ○ 3VO  (not connected)  │
+        │  ○ GND  ← GND from ESP32 │
+        │  ○ SDA  ← GPIO21         │
+        │  ○ SCL  ← GPIO22         │
+        │  ○ RST  (not connected)  │
+        │  ○ ADR  → GND (Addr:0x28)│
+        │  ○ INT  (optional)       │
+        │  ○ PS0  → GND (I2C mode) │
+        │  ○ PS1  → GND (I2C mode) │
+        └──────────────────────────┘
+
+================================================================================
+WIRING CONNECTIONS
+================================================================================
+
+I2C Communication Lines
+-----------------------
+ESP32 GPIO21 (SDA) ──────[4.7kΩ to 3.3V]──────► BNO055 SDA
+ESP32 GPIO22 (SCL) ──────[4.7kΩ to 3.3V]──────► BNO055 SCL
+
+Power Connections
+-----------------
+ESP32 3.3V  ────────────────────────────────────► BNO055 VIN
+ESP32 GND   ────────────────────────────────────► BNO055 GND
+
+Configuration Pins (BNO055)
+---------------------------
+BNO055 ADR  ────────────────────────────────────► GND (Sets I2C address to 0x28)
+BNO055 PS0  ────────────────────────────────────► GND (Selects I2C mode)
+BNO055 PS1  ────────────────────────────────────► GND (Selects I2C mode)
+
+LED Connections
+---------------
+ESP32 GPIO2  ───────[220Ω]──────[GREEN LED]────► GND  (Status)
+ESP32 GPIO32 ───────[220Ω]──────[YELLOW LED]───► GND  (Calibrating)
+ESP32 GPIO17 ───────[220Ω]──────[RED LED]──────► GND  (Not Calibrated)
+ESP32 GPIO19 ───────[220Ω]──────[BLUE LED]─────► GND  (Calibrated)
+ESP32 GPIO5  ───────[220Ω]──────[GREEN LED]────► GND  (Reserved)
+
+Button Connections
+------------------
+3.3V ────[10kΩ]────┬────[BUTTON]──── GND
+                   │
+                   └──► ESP32 GPIO14 (Power Button)
+
+3.3V ────[10kΩ]────┬────[BUTTON]──── GND
+                   │
+                   └──► ESP32 GPIO4 (Calibration Button)
+
+================================================================================
+DETAILED CONNECTION DIAGRAM
+================================================================================
+
+    ESP32                          BNO055
+    ┌────┐                        ┌──────┐
+    │    │                        │      │
+    │ 3V3├───────────────────────►│VIN   │
+    │    │                        │      │
+    │ GND├───────────────────────►│GND   │
+    │    │     ┌──[4.7kΩ]──┐     │      │
+    │    │     │           3.3V   │      │
+    │ 21 ├─────┴─────────────────►│SDA   │
+    │    │     ┌──[4.7kΩ]──┐     │      │
+    │    │     │           3.3V   │      │
+    │ 22 ├─────┴─────────────────►│SCL   │
+    │    │                        │      │
+    │    │                    GND─►│ADR   │
+    │    │                    GND─►│PS0   │
+    │    │                    GND─►│PS1   │
+    └────┘                        └──────┘
+
+================================================================================
+ELECTRICAL SPECIFICATIONS
+================================================================================
+
+Operating Voltages
+------------------
+ESP32 Logic Level:     3.3V
+BNO055 VIN Range:      2.4V - 3.6V
+BNO055 Logic Level:    3.3V (matched with ESP32)
+I2C Pull-up Voltage:   3.3V
+
+Current Consumption
+-------------------
+ESP32 (active):        80-240mA
+BNO055 (normal mode):  12.3mA
+BNO055 (low power):    6.1mA
+LEDs (each):          10-15mA @ 3.3V
+Total System:         ~100-300mA
+
+I2C Specifications
+------------------
+I2C Address:          0x28 (when ADR pin = GND)
+                     0x29 (when ADR pin = 3.3V)
+I2C Speed:           Standard (100kHz) or Fast (400kHz)
+Pull-up Resistors:   4.7kΩ (recommended for 3.3V systems)
+
+================================================================================
+COMPONENT VALUES
+================================================================================
+
+Resistors
+---------
+R1, R2: 4.7kΩ (I2C pull-ups)
+R3-R7:  220Ω (LED current limiting)
+R8, R9: 10kΩ (Button pull-ups)
+
+Capacitors (Optional but Recommended)
+--------------------------------------
+C1: 100nF ceramic (ESP32 3.3V decoupling)
+C2: 100nF ceramic (BNO055 VIN decoupling)
+C3: 10μF electrolytic (Power supply filtering)
+
+================================================================================
+NOTES AND WARNINGS
+================================================================================
+
+IMPORTANT WARNINGS:
+-------------------
+⚠️  NEVER connect BNO055 VIN to 5V - Maximum rating is 3.6V!
+⚠️  Ensure proper I2C pull-up resistors are installed
+⚠️  Check I2C address matches software configuration (0x28)
+⚠️  Do not exceed 3.6V on any BNO055 pin
+
+Assembly Notes:
+---------------
+1. Always power off before making connections
+2. Double-check polarity of LEDs (longer leg = anode = positive)
+3. Use breadboard or PCB for secure connections
+4. Keep I2C lines (SDA/SCL) as short as possible (<30cm)
+5. Twist I2C wires together to reduce noise
+6. Add decoupling capacitors near power pins for stability
+
+Troubleshooting:
+----------------
+- No I2C detection: Check pull-up resistors and connections
+- Wrong address: Verify ADR pin connection (GND = 0x28)
+- Intermittent data: Check power supply stability
+- LEDs not working: Verify LED polarity and resistor values
+
+================================================================================
+REVISION HISTORY
+================================================================================
+Version 1.0 - December 2024 - Initial Release
+- Basic I2C connection
+- LED indicators
+- Button inputs
+
+================================================================================

@@ -1,0 +1,109 @@
+{
+    "network": {
+        "wifi": {
+            "ssid": "FallNet",
+            "password": "1122334455",
+            "channel": 6,
+            "mode": "access_point",
+            "security": "WPA2",
+            "hidden": false
+        },
+        "access_point": {
+            "interface": "wlan0",
+            "ip_address": "192.168.4.1",
+            "subnet_mask": "255.255.255.0",
+            "dhcp_range_start": "192.168.4.2",
+            "dhcp_range_end": "192.168.4.20",
+            "lease_time": "24h",
+            "max_clients": 20
+        },
+        "udp": {
+            "port": 12345,
+            "buffer_size": 2048,
+            "timeout": 0.5,
+            "max_packet_size": 1024
+        },
+        "websocket": {
+            "port": 5000,
+            "host": "0.0.0.0",
+            "cors_origins": "*",
+            "ping_interval": 25,
+            "ping_timeout": 60,
+            "max_connections": 100
+        }
+    },
+    "sensors": {
+        "expected_count": 3,
+        "board_assignments": {
+            "1": {
+                "location": "thoracic",
+                "description": "Chest/Upper torso sensor",
+                "mac_address": null,
+                "static_ip": null
+            },
+            "2": {
+                "location": "hip",
+                "description": "Hip/Waist center sensor",
+                "mac_address": null,
+                "static_ip": null
+            },
+            "3": {
+                "location": "knee",
+                "description": "Knee/Thigh sensor",
+                "mac_address": null,
+                "static_ip": null
+            }
+        },
+        "communication": {
+            "protocol": "UDP",
+            "data_format": "CSV",
+            "packet_structure": "board_id,ip,gx,gy,gz,ax,ay,az",
+            "transmission_rate_hz": 10,
+            "retry_attempts": 3,
+            "connection_timeout_ms": 5000
+        }
+    },
+    "redis": {
+        "host": "localhost",
+        "port": 6379,
+        "db": 0,
+        "password": null,
+        "decode_responses": true,
+        "socket_timeout": 5,
+        "connection_pool": {
+            "max_connections": 50,
+            "max_idle_time": 300
+        },
+        "key_patterns": {
+            "sensor_data": "sensor_{board_id}",
+            "fall_events": "falls:{date}",
+            "system_status": "status:system"
+        }
+    },
+    "logging": {
+        "level": "INFO",
+        "console_output": true,
+        "file_output": true,
+        "log_directory": "/home/admin/logs",
+        "max_file_size_mb": 100,
+        "backup_count": 7,
+        "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    },
+    "security": {
+        "enable_mac_filtering": false,
+        "allowed_mac_addresses": [],
+        "enable_encryption": true,
+        "api_key": null,
+        "enable_rate_limiting": false,
+        "rate_limit_per_minute": 600
+    },
+    "system": {
+        "environment": "production",
+        "debug_mode": false,
+        "auto_start": true,
+        "watchdog_enabled": true,
+        "watchdog_timeout_seconds": 60,
+        "backup_enabled": true,
+        "backup_interval_hours": 24
+    }
+}

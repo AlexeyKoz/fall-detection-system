@@ -1,0 +1,325 @@
+================================================================================
+                         POWER SYSTEM SCHEMATIC
+================================================================================
+Project: Fall Detection System
+Date: December 2024
+Author: Alexey Kozlov
+Institution: Ariel University
+================================================================================
+
+SYSTEM OVERVIEW
+================================================================================
+
+Power Architecture:
+-------------------
+- Battery: 18650 Li-Ion Cell (3.7V nominal, 1000mAh)
+- Charging: TP4056 BMS Module with protection
+- Regulation: Built-in ESP32 regulator (3.3V output)
+- Power Switch: Mechanical latching switch
+- Deep Sleep: Software-controlled power management
+
+Power Flow:
+-----------
+[USB 5V] → [TP4056] → [Li-Ion Battery] → [Power Switch] → [ESP32] → [3.3V Reg] → [BNO055 & LEDs]
+
+================================================================================
+DETAILED POWER CIRCUIT
+================================================================================
+
+USB Charging Input
+------------------
+    USB 5V (Micro USB/Type-C)
+         │
+         ▼
+    ┌─────────────────────┐
+    │     TP4056 BMS      │
+    │                     │
+    │  IN+ ◄──── USB 5V   │
+    │  IN- ◄──── USB GND  │
+    │                     │
+    │  Status LEDs:       │
+    │  RED  = Charging    │
+    │  BLUE = Complete    │
+    │                     │
+    │  B+ ───────┐        │
+    │           ▼        │
+    │     [Li-Ion Cell]   │
+    │           │        │
+    │  B- ◄─────┘        │
+    │                     │
+    │  OUT+ ─────┐       │
+    │            │       │
+    │  OUT- ─────┼───┐   │
+    └─────────────────────┘
+                 │   │
+                 ▼   ▼
+              Power Output
+              (3.7V Protected)
+
+Battery Connection
+------------------
+         TP4056 B+
+            │
+            ├──────[1A Fuse]──────┐
+            │                     │
+         ┌──┴──┐               ┌─┴─┐
+         │ BAT+│               │PTC│ (Optional Protection)
+         │     │               └─┬─┘
+         │18650│                 │
+         │3.7V │◄────────────────┘
+         │1000 │
+         │ mAh │
+         │     │
+         │ BAT-│
+         └──┬──┘
+            │
+            └──────────────────► TP4056 B-
+
+Power Distribution
+------------------
+    TP4056 OUT+ (3.7V)
+         │
+         ├────────[Power Switch]────────┐
+         │                              │
+         │                              ▼
+         │                         ┌────────┐
+         │                         │ ESP32  │
+         │                         │        │
+         │                         │ VIN ◄──┤ (3.7V input)
+         │                         │        │
+         │                         │ 3.3V ──┼──► To BNO055 VIN
+         │                         │        │    To LEDs
+         │                         │ GND ───┼──┐
+         │                         └────────┘  │
+         │                                     │
+    TP4056 OUT- ───────────────────────────────┘
+
+================================================================================
+COMPONENT SPECIFICATIONS
+================================================================================
+
+TP4056 BMS Module
+-----------------
+Input Voltage:        4.5V - 5.5V (USB)
+Charge Current:       1A (adjustable via resistor)
+Charge Voltage:       4.2V ± 1%
+Protection Features:
+  - Overcharge:       4.25V cutoff
+  - Overdischarge:    2.5V cutoff
+  - Overcurrent:      3A cutoff
+  - Short circuit:    Yes
+Status Indicators:
+  - Red LED:         Charging
+  - Blue LED:        Charge complete
+PCB Size:           25mm x 19mm
+
+18650 Li-Ion Battery
+--------------------
+Chemistry:           Li-Ion (ICR/INR)
+Nominal Voltage:     3.7V
+Full Charge:         4.2V
+Cutoff Voltage:      2.5V
+Capacity:           1000mAh (3.7Wh)
+Discharge Rate:      1C continuous (1A)
+                    2C peak (2A)
+Dimensions:         18mm dia x 65mm length
+Weight:             45g
+Cycle Life:         500+ cycles to 80%
+
+ESP32 Power Requirements
+------------------------
+Input Voltage Range: 3.0V - 3.6V (via 3.3V pin)
+                    5V - 12V (via VIN pin)
+                    4.5V - 5.5V (via USB)
+Current Consumption:
+  - Active WiFi:    80-240mA
+  - Modem Sleep:    20-30mA
+  - Light Sleep:    0.8mA
+  - Deep Sleep:     10μA
+Internal Regulator:  AMS1117-3.3 (800mA max)
+
+================================================================================
+POWER CONSUMPTION ANALYSIS
+================================================================================
+
+Component Current Draw
+----------------------
+ESP32 (WiFi active):     80mA @ 3.3V
+BNO055 (normal mode):    12.3mA @ 3.3V
+Status LED (ON):         10mA @ 3.3V
+Other LEDs (average):    5mA @ 3.3V (intermittent)
+------------------------
+Total System:           ~102mA @ 3.3V
+
+Power Calculations
+------------------
+Battery Capacity:        1000mAh @ 3.7V = 3.7Wh
+System Power:           102mA × 3.3V = 337mW
+Conversion Efficiency:   85% (3.7V to 3.3V)
+Effective Current:       337mW / 3.7V / 0.85 = 107mA
+Battery Life:           1000mAh / 107mA = 9.3 hours
+
+With Deep Sleep (50% duty cycle):
+Effective Current:       ~54mA
+Battery Life:           1000mAh / 54mA = 18.5 hours
+
+With Deep Sleep (90% sleep):
+Effective Current:       ~20mA
+Battery Life:           1000mAh / 20mA = 50 hours
+
+================================================================================
+POWER MANAGEMENT FEATURES
+================================================================================
+
+Software Power Control
+----------------------
+1. Deep Sleep Mode:
+   - Triggered by 3-second button press
+   - Current: 10μA
+   - Wake sources: GPIO14 (button), Timer, Touch
+
+2. Power Optimization Code:
+   ```cpp
+   // Enter deep sleep
+   esp_sleep_enable_ext0_wakeup(GPIO_NUM_14, 0);
+   esp_deep_sleep_start();
+   
+   // WiFi power save mode
+   WiFi.setSleep(true);
+   ```
+
+3. Battery Monitoring (Optional):
+   ESP32 GPIO35 ─────[100kΩ]────┬──── BAT+
+                                │
+                     [100kΩ]    │
+                        │       │
+                       GND      └──► ADC Input
+   
+   Voltage = ADC_Reading × 2 × 3.3V / 4095
+
+================================================================================
+CHARGING CIRCUIT DETAILS
+================================================================================
+
+USB Input Protection
+--------------------
+    USB 5V ──┬──[500mA Fuse]──► TP4056 IN+
+            │
+          [TVS]  (Optional: Transient Voltage Suppressor)
+            │
+           GND
+
+Charge Current Setting
+----------------------
+TP4056 uses external resistor (R_PROG) to set charge current:
+- 10kΩ = 130mA
+- 5kΩ  = 250mA
+- 4kΩ  = 300mA
+- 2kΩ  = 580mA
+- 1.2kΩ = 1000mA (default)
+
+For 1000mAh battery, use 500mA charge rate (2kΩ resistor)
+Charge time: ~2.5 hours from empty
+
+================================================================================
+SAFETY FEATURES
+================================================================================
+
+Hardware Protection
+-------------------
+1. TP4056 Built-in Protection:
+   - Overcharge protection (4.25V)
+   - Overdischarge protection (2.5V)
+   - Overcurrent protection (3A)
+   - Short circuit protection
+   - Thermal protection
+
+2. Additional Safety:
+   - Fuse on battery positive (1A)
+   - PTC resettable fuse (optional)
+   - TVS diode on USB input (optional)
+
+Software Protection
+-------------------
+1. Battery voltage monitoring
+2. Thermal monitoring via ESP32 internal sensor
+3. Automatic shutdown at low voltage
+4. Charging status monitoring
+
+================================================================================
+PCB LAYOUT RECOMMENDATIONS
+================================================================================
+
+Component Placement
+-------------------
+1. Keep TP4056 away from heat sources
+2. Place charging LEDs visible through enclosure
+3. Use thick traces for power lines (>1mm)
+4. Add thermal vias under TP4056 IC
+5. Keep battery wires short (<10cm)
+
+Grounding
+---------
+- Single point ground at TP4056
+- Separate analog and digital grounds
+- Connect grounds at one point only
+
+EMI Reduction
+-------------
+- Add 100nF capacitor near ESP32 power pins
+- Use ferrite bead on power input (optional)
+- Keep high-frequency signals away from battery
+
+================================================================================
+ASSEMBLY NOTES
+================================================================================
+
+Step-by-Step Assembly:
+----------------------
+1. Solder TP4056 module connections
+2. Connect battery holder with correct polarity
+3. Install power switch between TP4056 OUT+ and ESP32 VIN
+4. Add fuse holder in battery positive line
+5. Connect all grounds together
+6. Test charging before connecting ESP32
+7. Verify output voltage (should be 3.7-4.2V)
+
+Testing Procedure:
+------------------
+1. Check battery voltage (>3.0V)
+2. Connect USB, verify charging LED
+3. Measure TP4056 output (3.7-4.2V)
+4. Test power switch operation
+5. Connect ESP32, verify 3.3V output
+6. Test deep sleep current (<1mA)
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Common Issues:
+--------------
+Issue: Not charging
+- Check USB cable and power source
+- Verify battery voltage (>2.5V)
+- Check R_PROG resistor value
+
+Issue: Short battery life
+- Verify deep sleep is working
+- Check for current leaks
+- Measure actual current consumption
+
+Issue: ESP32 brownout
+- Check battery voltage under load
+- Verify connections are solid
+- Add larger capacitor on VIN
+
+================================================================================
+REVISION HISTORY
+================================================================================
+Version 1.0 - December 2024 - Initial Release
+- Basic power system with TP4056
+- Deep sleep implementation
+- Safety features
+
+================================================================================

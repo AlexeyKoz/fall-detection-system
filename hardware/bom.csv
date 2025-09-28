@@ -1,0 +1,49 @@
+Part Number,Category,Description,Manufacturer,Manufacturer Part,Quantity,Unit Price (USD),Total Price (USD),Supplier,Supplier Link,Notes
+ESP32-001,Microcontroller,ESP32-DevKitC-32D WROOM-32 Development Board,Espressif,ESP32-DevKitC-32D,3,5.00,15.00,AliExpress,https://www.aliexpress.com,4MB Flash version required
+BNO055-001,Sensor,BNO055 9-DOF Absolute Orientation IMU,Bosch/Adafruit,ADA2472,3,29.95,89.85,Adafruit,https://www.adafruit.com/product/2472,I2C/UART compatible breakout board
+BAT-001,Battery,18650 Li-Ion Rechargeable Battery 3.7V 1000mAh,Samsung,INR18650-10S,3,8.00,24.00,18650BatteryStore,https://www.18650batterystore.com,Protected cell recommended
+BMS-001,Power Management,TP4056 Charging Module with Battery Protection,Various,TP4056,3,1.50,4.50,AliExpress,https://www.aliexpress.com,Micro USB charging version
+RPI5-001,Computer,Raspberry Pi 5 4GB Model B,Raspberry Pi Foundation,SC1112,1,80.00,80.00,Official Reseller,https://www.raspberrypi.com/products/,Minimum 4GB RAM required
+SD-001,Storage,MicroSD Card 32GB Class 10 U1,SanDisk,SDSQUAR-032G-GN6MA,1,9.99,9.99,Amazon,https://www.amazon.com,A1 rated for better performance
+PSU-001,Power Supply,Official Raspberry Pi 5V 5A USB-C Power Supply,Raspberry Pi Foundation,SC0218,1,12.00,12.00,Official Reseller,https://www.raspberrypi.com/products/,27W power delivery
+BTN-001,Input,Tactile Push Button 6x6mm Momentary,Various,TS-06,6,0.10,0.60,AliExpress,https://www.aliexpress.com,Through-hole mounting
+LED-G001,Indicator,5mm Green LED,Various,LED-5MM-GREEN,3,0.15,0.45,AliExpress,https://www.aliexpress.com,Status indicator
+LED-Y001,Indicator,5mm Yellow LED,Various,LED-5MM-YELLOW,3,0.15,0.45,AliExpress,https://www.aliexpress.com,Calibration indicator
+LED-R001,Indicator,5mm Red LED,Various,LED-5MM-RED,3,0.15,0.45,AliExpress,https://www.aliexpress.com,Error indicator
+LED-B001,Indicator,5mm Blue LED,Various,LED-5MM-BLUE,3,0.15,0.45,AliExpress,https://www.aliexpress.com,Calibrated indicator
+RES-220,Passive,220Ω Resistor 1/4W 5%,Various,CFR-25JB-52-220R,15,0.02,0.30,AliExpress,https://www.aliexpress.com,LED current limiting
+RES-10K,Passive,10kΩ Resistor 1/4W 5%,Various,CFR-25JB-52-10K,10,0.02,0.20,AliExpress,https://www.aliexpress.com,Pull-up resistors for buttons
+RES-4K7,Passive,4.7kΩ Resistor 1/4W 5%,Various,CFR-25JB-52-4K7,6,0.02,0.12,AliExpress,https://www.aliexpress.com,I2C pull-up resistors
+WIRE-001,Connector,Jumper Wire Set M-F 20cm (40pcs),Various,JUMPER-MF-20,1,3.50,3.50,AliExpress,https://www.aliexpress.com,For prototyping connections
+BREAD-001,Prototyping,Breadboard 400 tie points,Various,BB-400,3,2.50,7.50,AliExpress,https://www.aliexpress.com,For initial testing
+CONN-001,Connector,JST-PH 2.0mm 2-Pin Connector Set,JST,B2B-PH-K-S,6,0.30,1.80,AliExpress,https://www.aliexpress.com,Battery connections
+CONN-002,Connector,2.54mm Pin Headers Male 40-pin,Various,PH-2.54-40P,3,0.25,0.75,AliExpress,https://www.aliexpress.com,ESP32 headers if needed
+CONN-003,Connector,2.54mm Pin Headers Female 40-pin,Various,PH-2.54-40P-F,3,0.30,0.90,AliExpress,https://www.aliexpress.com,For connections to ESP32
+CASE-001,Enclosure,ABS Project Box 70x50x25mm,Hammond,1591XXSSBK,3,4.50,13.50,Digi-Key,https://www.digikey.com,IP54 rated weatherproof
+STRAP-001,Mounting,Elastic Adjustable Strap with Velcro 25mm,Various,STRAP-25MM,3,2.00,6.00,AliExpress,https://www.aliexpress.com,For body mounting
+PAD-001,Comfort,Soft Foam Padding 50x50x5mm,Various,FOAM-PAD,3,1.00,3.00,AliExpress,https://www.aliexpress.com,For sensor comfort
+GLAND-001,Enclosure,Cable Gland PG7 3-6.5mm,Various,PG7-GLAND,6,0.50,3.00,AliExpress,https://www.aliexpress.com,Waterproof cable entry
+SCREW-001,Hardware,M3x8mm Phillips Head Screw Set (100pcs),Various,M3X8-PH,1,2.00,2.00,AliExpress,https://www.aliexpress.com,For mounting components
+NUT-001,Hardware,M3 Hex Nut Set (100pcs),Various,M3-NUT,1,1.50,1.50,AliExpress,https://www.aliexpress.com,For mounting components
+STANDOFF-001,Hardware,M3x10mm Brass Standoff Set (20pcs),Various,M3X10-STANDOFF,1,3.00,3.00,AliExpress,https://www.aliexpress.com,PCB mounting
+TAPE-001,Assembly,Kapton Tape 10mm x 33m,3M,5413,1,8.00,8.00,Amazon,https://www.amazon.com,High temperature insulation
+SOLDER-001,Assembly,Lead-Free Solder Wire 0.8mm,Kester,24-6337-0027,1,15.00,15.00,Digi-Key,https://www.digikey.com,Sn96.5/Ag3.0/Cu0.5
+FLUX-001,Assembly,No-Clean Flux Pen,MG Chemicals,8341-10ML,1,7.00,7.00,Amazon,https://www.amazon.com,For soldering
+SHRINK-001,Assembly,Heat Shrink Tubing Kit Assorted,Various,HST-KIT,1,5.00,5.00,AliExpress,https://www.aliexpress.com,Various sizes
+CABLE-001,Wire,Silicone Wire 22AWG Red/Black (1m each),Various,WIRE-22AWG,2,2.00,4.00,AliExpress,https://www.aliexpress.com,Flexible power wiring
+USB-001,Cable,USB-A to Micro USB Cable 1m,Various,USB-MICRO-1M,3,2.50,7.50,AliExpress,https://www.aliexpress.com,For ESP32 programming
+USB-002,Cable,USB-C Cable 1m for RPi Power,Various,USB-C-1M,1,5.00,5.00,Amazon,https://www.amazon.com,For Raspberry Pi power
+ANTENNA-001,Optional,2.4GHz WiFi Antenna with U.FL connector,Various,ANT-2.4G-UFL,3,3.00,9.00,AliExpress,https://www.aliexpress.com,Optional for better range
+HEATSINK-001,Cooling,Raspberry Pi 5 Heatsink Set,Various,RPI5-HEATSINK,1,5.00,5.00,AliExpress,https://www.aliexpress.com,Recommended for RPi5
+FAN-001,Cooling,30x30x7mm 5V Fan,Various,FAN-30MM-5V,1,3.00,3.00,AliExpress,https://www.aliexpress.com,Optional active cooling
+CHARGER-001,Optional,18650 External Battery Charger,XTAR,VC2,1,15.00,15.00,Amazon,https://www.amazon.com,For spare battery charging
+SPARE-BAT,Optional,Spare 18650 Battery Set,Samsung,INR18650-10S,3,8.00,24.00,18650BatteryStore,https://www.18650batterystore.com,Hot-swap capability
+TEST-001,Tools,Digital Multimeter,Various,DT830B,1,10.00,10.00,AliExpress,https://www.aliexpress.com,For testing and debugging
+,,,,,,,,,,,
+,,,,,SUBTOTAL:,,399.16,,,Core components total,
+,,,,,SHIPPING (EST):,,20.00,,,Estimated shipping costs,
+,,,,,TAX (10%):,,41.92,,,Varies by location,
+,,,,,TOTAL:,,461.08,,,Complete system cost,
+,,,,,,,,,,,
+,,,,,CORE ONLY:,,225.00,,,Essential components only,
+,,,,,WITH OPTIONS:,,461.08,,,All components including tools,

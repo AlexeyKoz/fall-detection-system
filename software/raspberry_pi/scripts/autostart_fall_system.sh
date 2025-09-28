@@ -1,0 +1,36 @@
+#!/bin/bash
+# autostart_fall_system.sh
+# 🧠 Запускает Redis, Flask, монитор и браузер
+
+# 1. Redis
+echo "🔁 Checking Redis..."
+if ! pgrep -x "redis-server" > /dev/null
+then
+    echo "🚀 Starting Redis..."
+    redis-server --daemonize yes
+else
+    echo "✅ Redis already running."
+fi
+
+# 2. Виртуальное окружение
+source /home/admin/venv/bin/activate
+
+# 3. Fall Receiver
+echo "🚀 Starting Fall Receiver..." >> /home/admin/boot_debug.log
+nohup /home/admin/venv/bin/python /home/admin/Fall_Reciver_Redis.py > /home/admin/log_receiver.log 2>&1 &
+
+# 4. Fall Detector Console (графики)
+echo "📊 Launching fall detector console..." >> /home/admin/boot_debug.log
+(sleep 15 && export DISPLAY=:0 && lxterminal --geometry=120x30 -e "bash -c 'source /home/admin/venv/bin/activate && python /home/admin/fall_detector_console.py; exec bash'") >> /home/admin/log_console_terminal.log 2>&1 &
+
+
+# 5. Flask WebSocket сервер
+echo "🚀 Starting Flask WebSocket server..."
+nohup /home/admin/venv/bin/python /home/admin/fall_status_socketio.py > /home/admin/log_fall_status.log 2>&1 &
+
+# 6. Ждём сервер
+sleep 3
+
+# 7. Браузер
+echo "🖥️ Launching Chromium in fullscreen..."
+chromium-browser --start-fullscreen --kiosk http://localhost:5000 &

@@ -1,0 +1,112 @@
+# Multi Sensor Demo - Fall Detection Console Output
+# Location: examples/multi_sensor_setup/console_output.txt
+# This demonstrates all three sensors working together
+
+🧠 Monitoring Redis for fall events...
+
+========== STATUS @ 2024-12-08 15:45:10 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.145 -0.067  0.089]  Accel: [ 0.456 -0.234  9.812]
+  Fall Index: 0.18  
+Sensor 2 [192.168.4.11]: ✅
+  Gyro: [ 0.234  0.156 -0.089]  Accel: [ 0.678  0.345  9.756]
+  Fall Index: 0.30  
+Sensor 3 [192.168.4.12]: ✅
+  Gyro: [-0.123  0.089  0.167]  Accel: [ 0.234 -0.456  9.823]
+  Fall Index: 0.23  
+============================
+
+========== STATUS @ 2024-12-08 15:45:13 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.167 -0.089  0.123]  Accel: [ 0.567 -0.345  9.789]
+  Fall Index: 0.22  
+Sensor 2 [192.168.4.11]: ✅
+  Gyro: [ 0.289  0.234 -0.156]  Accel: [ 0.789  0.456  9.234]
+  Fall Index: 0.42  
+Sensor 3 [192.168.4.12]: ✅
+  Gyro: [-0.234  0.156  0.289]  Accel: [ 0.345 -0.567  9.756]
+  Fall Index: 0.41  
+============================
+
+# Walking activity detected
+========== STATUS @ 2024-12-08 15:45:16 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.567  0.234  0.456]  Accel: [ 1.234 -0.789  9.567]
+  Fall Index: 0.79  
+Sensor 2 [192.168.4.11]: ✅
+  Gyro: [ 0.678  0.456 -0.345]  Accel: [ 1.567  0.890  9.123]
+  Fall Index: 0.90  
+Sensor 3 [192.168.4.12]: ✅
+  Gyro: [ 0.456  0.345  0.567]  Accel: [ 0.890 -0.678  9.456]
+  Fall Index: 0.82  
+============================
+
+# Stumble detected - recovery successful
+========== STATUS @ 2024-12-08 15:45:19 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 1.234  0.567  0.890]  Accel: [ 2.345 -1.234  8.890]
+  Fall Index: 1.61  
+Sensor 2 [192.168.4.11]: ✅
+  Gyro: [ 1.456  0.789 -0.567]  Accel: [ 2.678  1.234  8.567]
+  Fall Index: 1.82  
+Sensor 3 [192.168.4.12]: ✅
+  Gyro: [ 0.890  0.678  1.123]  Accel: [ 1.890 -1.456  8.234]
+  Fall Index: 1.59  
+============================
+
+# FALL EVENT - Multiple sensors triggered
+========== STATUS @ 2024-12-08 15:45:22 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 3.456  2.345  4.567]  Accel: [ 5.678 -4.345  6.234]
+  Fall Index: 6.24  ◉ FALL ◉
+Sensor 2 [192.168.4.11]: ✅
+  Gyro: [ 4.234  3.123  3.890]  Accel: [ 6.234  3.567  5.890]
+  Fall Index: 6.48  ◉ FALL ◉
+Sensor 3 [192.168.4.12]: ✅
+  Gyro: [ 2.890  2.456  3.567]  Accel: [ 4.567 -3.234  6.789]
+  Fall Index: 5.13  ◉ FALL ◉
+============================
+
+[2024-12-08 15:45:22] ◉ FALL detected!
+    Sensor: 1 (192.168.4.10)
+    Gyro:   x=3.456, y=2.345, z=4.567
+    Accel:  x=5.678, y=-4.345, z=6.234
+    Index:  6.24
+
+[2024-12-08 15:45:22] ◉ FALL detected!
+    Sensor: 2 (192.168.4.11)
+    Gyro:   x=4.234, y=3.123, z=3.890
+    Accel:  x=6.234, y=3.567, z=5.890
+    Index:  6.48
+
+[2024-12-08 15:45:22] ◉ FALL detected!
+    Sensor: 3 (192.168.4.12)
+    Gyro:   x=2.890, y=2.456, z=3.567
+    Accel:  x=4.567, y=-3.234, z=6.789
+    Index:  5.13
+
+# Recovery phase
+========== STATUS @ 2024-12-08 15:45:25 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.890 -0.567  0.678]  Accel: [ 2.345 -1.567  8.456]
+  Fall Index: 1.24  
+Sensor 2 [192.168.4.11]: ✅
+  Gyro: [ 0.678  0.456 -0.345]  Accel: [ 1.890  0.890  8.890]
+  Fall Index: 0.90  
+Sensor 3 [192.168.4.12]: ✅
+  Gyro: [ 0.567  0.345  0.456]  Accel: [ 1.234 -0.890  9.123]
+  Fall Index: 0.78  
+============================
+
+# Back to normal
+========== STATUS @ 2024-12-08 15:45:28 ==========
+Sensor 1 [192.168.4.10]: ✅
+  Gyro: [ 0.234 -0.167  0.189]  Accel: [ 0.678 -0.456  9.756]
+  Fall Index: 0.35  
+Sensor 2 [192.168.4.11]: ✅
+  Gyro: [ 0.156  0.123 -0.089]  Accel: [ 0.456  0.234  9.812]
+  Fall Index: 0.22  
+Sensor 3 [192.168.4.12]: ✅
+  Gyro: [ 0.089  0.067  0.123]  Accel: [ 0.345 -0.234  9.823]
+  Fall Index: 0.17  
+============================

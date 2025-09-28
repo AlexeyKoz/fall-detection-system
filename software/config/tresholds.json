@@ -1,0 +1,237 @@
+{
+    "fall_detection": {
+        "algorithms": {
+            "simple_threshold": {
+                "enabled": false,
+                "gyro_magnitude_threshold": 4.0,
+                "accel_magnitude_threshold": 15.0,
+                "description": "Legacy simple magnitude-based detection"
+            },
+            "quaternion_based": {
+                "enabled": true,
+                "description": "Advanced quaternion-based fall prediction",
+                "parameters": {
+                    "prediction_window_ms": 500,
+                    "detection_window_ms": 100,
+                    "minimum_confidence": 0.85
+                }
+            },
+            "logistic_regression": {
+                "enabled": true,
+                "description": "Logistic regression model from IEEE paper",
+                "coefficients": {
+                    "beta_0": -2.834,
+                    "beta_1_thoracic": 0.034,
+                    "beta_2_hip": 0.153,
+                    "beta_3_knee": 0.193
+                },
+                "decision_threshold": 0.85
+            }
+        },
+        "thresholds": {
+            "critical": {
+                "gyro_magnitude": 4.0,
+                "accel_magnitude": 15.0,
+                "joint_angle_change": 45.0,
+                "description": "Definite fall detection"
+            },
+            "warning": {
+                "gyro_magnitude": 1.5,
+                "accel_magnitude": 12.0,
+                "joint_angle_change": 30.0,
+                "description": "Potential fall warning"
+            },
+            "normal": {
+                "gyro_magnitude": 1.0,
+                "accel_magnitude": 11.0,
+                "joint_angle_change": 20.0,
+                "description": "Normal activity range"
+            }
+        },
+        "multi_sensor": {
+            "voting_enabled": true,
+            "minimum_sensors_required": 2,
+            "agreement_threshold": 2,
+            "sensor_weights": {
+                "thoracic": 1.2,
+                "hip": 1.0,
+                "knee": 0.8
+            },
+            "time_synchronization_window_ms": 50
+        }
+    },
+    "activity_classification": {
+        "enabled": true,
+        "activities": {
+            "walking": {
+                "gyro_range": [
+                    0.5,
+                    1.5
+                ],
+                "accel_range": [
+                    9.0,
+                    11.0
+                ],
+                "frequency_hz": [
+                    0.5,
+                    2.0
+                ]
+            },
+            "sitting": {
+                "gyro_range": [
+                    0.0,
+                    0.3
+                ],
+                "accel_range": [
+                    9.6,
+                    10.0
+                ],
+                "frequency_hz": [
+                    0.0,
+                    0.2
+                ]
+            },
+            "standing": {
+                "gyro_range": [
+                    0.0,
+                    0.2
+                ],
+                "accel_range": [
+                    9.7,
+                    9.9
+                ],
+                "frequency_hz": [
+                    0.0,
+                    0.1
+                ]
+            },
+            "lying": {
+                "gyro_range": [
+                    0.0,
+                    0.1
+                ],
+                "accel_range": [
+                    9.0,
+                    10.5
+                ],
+                "frequency_hz": [
+                    0.0,
+                    0.1
+                ]
+            }
+        }
+    },
+    "calibration": {
+        "auto_calibration_enabled": false,
+        "calibration_check_interval_seconds": 3600,
+        "minimum_calibration_level": {
+            "gyro": 3,
+            "accel": 3,
+            "mag": 0
+        },
+        "calibration_timeout_seconds": 60,
+        "save_to_eeprom": true
+    },
+    "alerts": {
+        "fall_detected": {
+            "enabled": true,
+            "delay_before_alert_ms": 500,
+            "require_confirmation": false,
+            "alert_methods": [
+                "console",
+                "web",
+                "log"
+            ],
+            "severity": "critical"
+        },
+        "warning_detected": {
+            "enabled": true,
+            "delay_before_alert_ms": 1000,
+            "require_confirmation": false,
+            "alert_methods": [
+                "console",
+                "log"
+            ],
+            "severity": "warning"
+        },
+        "sensor_disconnected": {
+            "enabled": true,
+            "timeout_ms": 5000,
+            "alert_methods": [
+                "console",
+                "web",
+                "log"
+            ],
+            "severity": "error"
+        },
+        "low_battery": {
+            "enabled": false,
+            "threshold_percent": 20,
+            "alert_methods": [
+                "console",
+                "web"
+            ],
+            "severity": "warning"
+        }
+    },
+    "data_processing": {
+        "sampling_rate_hz": 10,
+        "buffer_size_samples": 50,
+        "sliding_window_size": 10,
+        "outlier_detection": {
+            "enabled": true,
+            "method": "z_score",
+            "threshold": 3.0
+        },
+        "smoothing": {
+            "enabled": false,
+            "method": "moving_average",
+            "window_size": 3
+        },
+        "noise_reduction": {
+            "enabled": false,
+            "method": "kalman_filter",
+            "parameters": {
+                "process_noise": 0.01,
+                "measurement_noise": 0.1
+            }
+        }
+    },
+    "performance": {
+        "optimization_level": "balanced",
+        "cache_enabled": true,
+        "cache_ttl_seconds": 60,
+        "batch_processing": false,
+        "parallel_processing": false,
+        "max_processing_time_ms": 50
+    },
+    "profiles": {
+        "elderly_sensitive": {
+            "description": "More sensitive settings for elderly users",
+            "fall_threshold_multiplier": 0.8,
+            "warning_threshold_multiplier": 0.7,
+            "response_time_multiplier": 1.2
+        },
+        "adult_normal": {
+            "description": "Standard settings for adults",
+            "fall_threshold_multiplier": 1.0,
+            "warning_threshold_multiplier": 1.0,
+            "response_time_multiplier": 1.0
+        },
+        "clinical_trial": {
+            "description": "Settings for clinical testing",
+            "fall_threshold_multiplier": 1.1,
+            "warning_threshold_multiplier": 1.2,
+            "response_time_multiplier": 0.8
+        },
+        "development": {
+            "description": "Settings for development and testing",
+            "fall_threshold_multiplier": 0.5,
+            "warning_threshold_multiplier": 0.5,
+            "response_time_multiplier": 1.0
+        }
+    },
+    "version": "1.0.0",
+    "last_modified": "2024-12-08",
+    "active_profile": "elderly_sensitive"
+}
